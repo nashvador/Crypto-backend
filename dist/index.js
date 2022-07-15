@@ -15,9 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const axios_1 = __importDefault(require("axios"));
+const mongoose_1 = __importDefault(require("mongoose"));
 dotenv_1.default.config();
+const mongoDBURL = process.env.MONGODB_URI || "localhost123";
 const app = (0, express_1.default)();
 const port = parseInt(process.env.PORT || "3001");
+mongoose_1.default
+    .connect(mongoDBURL)
+    .then((result) => console.log("connected"))
+    .catch((err) => console.log(err));
 app.get("/", (req, res) => {
     const sendGetRequest = () => __awaiter(void 0, void 0, void 0, function* () {
         const apiResp = yield axios_1.default.get(`https://api.coingecko.com/api/v3/ping`);
