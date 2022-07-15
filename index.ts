@@ -12,8 +12,10 @@ app.get("/", (req: Request, res: Response) => {
     const apiResp = await axios.get(`https://api.coingecko.com/api/v3/ping`);
     const data: object = apiResp.data.gecko_says;
     console.log(data);
+    res.send(data);
     return data;
   };
+  sendGetRequest();
 });
 
 app.listen(port, () => {
