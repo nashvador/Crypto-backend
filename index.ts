@@ -14,6 +14,7 @@ app.get('/', (req: Request, res: Response) => {
     console.log(data)
     res.send(data)
   }).catch(err => console.log(err))
+ 
 });
 
 app.listen(port, () => {
