@@ -5,7 +5,7 @@ import axios from 'axios'
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+const port: Number = parseInt(process.env.PORT || "3001");
 
 app.get('/', (req: Request, res: Response) => {
   axios.get(`https://api.coingecko.com/api/v3/ping
