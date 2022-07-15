@@ -8,17 +8,12 @@ const app: Express = express();
 const port: Number = parseInt(process.env.PORT || "3001");
 
 app.get("/", (req: Request, res: Response) => {
-  axios
-    .get(
-      `https://api.coingecko.com/api/v3/ping
-  `
-    )
-    .then((response) => {
-      const data: object = response.data.gecko_says;
-      console.log(data);
-      res.send(data);
-    })
-    .catch((err) => console.log(err));
+  const sendGetRequest = async (): Promise<object> => {
+    const apiResp = await axios.get(`https://api.coingecko.com/api/v3/ping`);
+    const data: object = apiResp.data.gecko_says;
+    console.log(data);
+    return data;
+  };
 });
 
 app.listen(port, () => {
