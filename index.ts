@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 dotenv.config();
 
-const mongoDBURL: string = process.env.MONGODB_URI || "localhost123";
+const mongoDBURL: string = process.env.MONGODB_URI;
 const app: Express = express();
 const port: Number = parseInt(process.env.PORT || "3001");
 
