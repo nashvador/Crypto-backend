@@ -4,11 +4,12 @@ const cors = require("cors");
 
 const logger = require("./utils/logger");
 const config = require("./utils/config");
+const { requestLogger } = require("./utils/middleware");
 const usersRouter = require("./controllers/users");
-const cryptoRouter = require("./controllers/crypto");
+const cryptoRouter = require("./controllers/coins");
 const mongoose = require("mongoose");
 
-logger.info("connecting to", config.MONGODB_URI);
+logger.info("connecting with", config.MONGODB_URI);
 
 mongoose
   .connect(config.MONGODB_URI)
@@ -22,6 +23,7 @@ mongoose
 app.use(cors());
 app.use(express.static("build"));
 app.use(express.json());
+app.use(requestLogger);
 
 app.use("/api/users", usersRouter);
 app.use("/api/crypto", cryptoRouter);
