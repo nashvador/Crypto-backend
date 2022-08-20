@@ -4,7 +4,7 @@ interface IUser {
   username: string;
   name: string;
   passwordHash: string;
-  portfolio?: Array<any>;
+  portfolio: Array<any>;
 }
 
 const userSchema = new Schema<IUser>({
@@ -17,7 +17,7 @@ const userSchema = new Schema<IUser>({
   portfolio: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Potfolio",
+      ref: "Portfolio",
     },
   ],
 });

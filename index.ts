@@ -1,6 +1,7 @@
 import express from "express";
 import portfolioRouter from "./routes/portfolio";
-import userRoutes from "./routes/userRoutes";
+import userRouter from "./routes/userRoutes";
+import loginRouter from "./routes/login";
 import { PORT, MONGODB_URI } from "./utils/config";
 const middleware = require("./utils/middleware");
 import mongoose from "mongoose";
@@ -20,9 +21,11 @@ mongoose
 app.use(middleware.requestLogger);
 
 app.use("/api/portfolio", portfolioRouter);
-app.use("/api/users", userRoutes);
+app.use("/api/users", userRouter);
+app.use("/api/login", loginRouter);
 
 app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

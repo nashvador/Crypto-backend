@@ -1,8 +1,8 @@
-import express, { Response, Request } from "express";
+import { Response, Request, Router } from "express";
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 
-const router = express.Router();
+const router = Router();
 
 router.post("/", async (request: Request, response: Response) => {
   const {
