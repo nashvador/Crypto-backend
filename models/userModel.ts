@@ -1,6 +1,13 @@
-import { Schema, InferSchemaType, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
-const userSchema = new Schema({
+interface IUser {
+  username: string;
+  name: string;
+  passwordHash: string;
+  portfolio?: Array<any>;
+}
+
+const userSchema = new Schema<IUser>({
   username: {
     type: String,
     required: true,
@@ -24,8 +31,6 @@ userSchema.set("toJSON", {
   },
 });
 
-type User = InferSchemaType<typeof userSchema>;
-
-const User = model("User", userSchema);
+const User = model<IUser>("User", userSchema);
 
 module.exports = User;
