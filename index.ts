@@ -19,6 +19,8 @@ mongoose
   });
 
 app.use(middleware.requestLogger);
+app.use(middleware.tokenExtractor);
+app.use(middleware.userExtractor);
 
 app.use("/api/portfolio", portfolioRouter);
 app.use("/api/users", userRouter);

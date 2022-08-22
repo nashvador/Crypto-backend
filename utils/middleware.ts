@@ -1,5 +1,12 @@
 import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 const logger = require("./logger");
+const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
+
+export interface GetUserAuthInfoRequest extends Request {
+  user?: any;
+  token?: string;
+}
 
 const requestLogger = (
   request: Request,
@@ -10,6 +17,35 @@ const requestLogger = (
   logger.info("Path:  ", request.path);
   logger.info("Body:  ", request.body);
   logger.info("---");
+  next();
+};
+
+const tokenExtractor = (
+  request: GetUserAuthInfoRequest,
+  _response: Response,
+  next: NextFunction
+) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    request.token = authorization.substring(7);
+  }
+
+  next();
+};
+
+const userExtractor = async (
+  request: GetUserAuthInfoRequest,
+  response: Response,
+  next: NextFunction
+) => {
+  if (request.token) {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+    request.user = await User.findById(decodedToken.id);
+  }
+
   next();
 };
 
@@ -46,4 +82,6 @@ module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler,
+  tokenExtractor,
+  userExtractor,
 };
