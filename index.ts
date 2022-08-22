@@ -4,10 +4,9 @@ import userRouter from "./routes/userRoutes";
 import loginRouter from "./routes/login";
 import { PORT, MONGODB_URI } from "./utils/config";
 const middleware = require("./utils/middleware");
+const cors = require("cors");
 import mongoose from "mongoose";
-
 const app = express();
-app.use(express.json());
 
 mongoose
   .connect(MONGODB_URI)
@@ -17,6 +16,9 @@ mongoose
   .catch((error) => {
     console.log("error connecting to Mongo", error.message);
   });
+
+app.use(cors());
+app.use(express.json());
 
 app.use(middleware.requestLogger);
 app.use(middleware.tokenExtractor);
