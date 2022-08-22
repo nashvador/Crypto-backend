@@ -31,16 +31,28 @@ router.post(
   }
 );
 
-// router.delete("/:id", async (request, response, next) => {
-//   const blog = await Blog.findById(request.params.id);
-//   const foundUser = request.user;
-//   if (blog.user.toString() === foundUser._id.toString()) {
-//     await Blog.findByIdAndRemove(request.params.id);
-//     response.status(204).end();
-//   } else {
-//     return response.status(401).json({ error: "incorrect user" });
-//   }
-// });
+router.delete(
+  "/:id",
+  async (
+    request: GetUserAuthInfoRequest,
+    response: Response,
+    _next: NextFunction
+  ) => {
+    const portfolio = await Portfolio.findById(request.params.id);
+
+    const foundUser = request.user;
+    const body = request.body;
+    const newCoin = {
+      portfolio: body.coin,
+    };
+    if (portfolio.user.toString() === foundUser._id.toString()) {
+      await Portfolio.findByIdAndUpdate(request.params.id, { $pull: newCoin });
+      response.status(204).end();
+    } else {
+      return response.status(401).json({ error: "incorrect user" });
+    }
+  }
+);
 
 router.put(
   "/:id",
@@ -53,10 +65,8 @@ router.put(
 
     const updateBlog = await Portfolio.findByIdAndUpdate(
       request.params.id,
-      newCoin,
-      {
-        new: true,
-      }
+      { $push: newCoin },
+      { upsert: true, new: true }
     );
     response.json(updateBlog);
   }
