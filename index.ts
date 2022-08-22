@@ -2,6 +2,7 @@ import express from "express";
 import portfolioRouter from "./routes/portfolio";
 import userRouter from "./routes/userRoutes";
 import loginRouter from "./routes/login";
+import apiRouter from "./routes/apiInfoRoutes";
 import { PORT, MONGODB_URI } from "./utils/config";
 const middleware = require("./utils/middleware");
 const cors = require("cors");
@@ -24,6 +25,7 @@ app.use(middleware.requestLogger);
 app.use(middleware.tokenExtractor);
 app.use(middleware.userExtractor);
 
+app.use("/api/coininfo", apiRouter);
 app.use("/api/portfolio", portfolioRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
