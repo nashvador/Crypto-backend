@@ -7,7 +7,7 @@ interface apiInterface extends Object {
   url: string;
 }
 
-router.get("/", async (request: Request, response: Response) => {
+router.post("/", async (request: Request, response: Response) => {
   const body: apiInterface = request.body;
   const responseAPI = await axios.get(body.url);
   response.json(responseAPI.data);
