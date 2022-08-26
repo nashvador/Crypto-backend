@@ -8,9 +8,18 @@ interface IPortfolio {
 }
 
 const portfolioSchema = new Schema<IPortfolio>({
-  coinId: String,
-  date: Date,
-  amountPurchased: Number,
+  coinId: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  amountPurchased: {
+    type: Number,
+    required: true,
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

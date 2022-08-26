@@ -1,14 +1,18 @@
 import { Router, Request, Response, NextFunction } from "express";
 const Portfolio = require("../models/portfolioModel");
 import { GetUserAuthInfoRequest } from "../utils/middleware";
+const User = require("../models/userModel");
 
 const router = Router();
 
-router.get("/", async (_request: Request, response: Response) => {
-  const getPortfolio = await Portfolio.find({}).populate("user", {
-    username: 1,
-    name: 1,
-    id: 1,
+router.get("/", async (request: GetUserAuthInfoRequest, response: Response) => {
+  const username = request.user.username;
+  console.log(username);
+
+  const getPortfolio = await User.find({ username }).populate("portfolio", {
+    coinId: 1,
+    date: 1,
+    amountPurchased: 1,
   });
   response.json(getPortfolio);
 });
