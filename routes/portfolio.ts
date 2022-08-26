@@ -19,11 +19,14 @@ router.post(
     const body = request.body;
     const user = request.user;
     const coin = new Portfolio({
-      portfolio: body.coin,
+      coinId: body.coin,
+      date: body.date,
+      amountPurchased: body.amount,
       user: user._id,
     });
 
     const postCoin = await coin.save();
+    console.log(user.portfolio);
     user.portfolio = user.portfolio.concat(postCoin._id);
     await user.save();
 

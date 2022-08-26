@@ -1,12 +1,16 @@
 import { Schema, model } from "mongoose";
 
 interface IPortfolio {
-  portfolio: Array<any>;
+  coinId: string;
+  date: Date;
+  amountPurchased: Number;
   user: object;
 }
 
 const portfolioSchema = new Schema<IPortfolio>({
-  portfolio: [],
+  coinId: String,
+  date: Date,
+  amountPurchased: Number,
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
