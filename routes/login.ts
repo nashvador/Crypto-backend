@@ -14,7 +14,7 @@ router.post("/", async (request: Request, response: Response) => {
 
   if (!(user && passwordCorrect)) {
     return response.status(401).json({
-      error: "invalid username or password",
+      error: "Invalid username or password",
     });
   }
 
