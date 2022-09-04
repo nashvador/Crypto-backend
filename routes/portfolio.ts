@@ -48,12 +48,9 @@ router.delete(
     const portfolio = await Portfolio.findById(request.params.id);
 
     const foundUser = request.user;
-    const body = request.body;
-    const newCoin = {
-      portfolio: body.coin,
-    };
+
     if (portfolio.user.toString() === foundUser._id.toString()) {
-      await Portfolio.findByIdAndUpdate(request.params.id, { $pull: newCoin });
+      await Portfolio.findByIdAndRemove(request.params.id);
       response.status(204).end();
     } else {
       return response.status(401).json({ error: "incorrect user" });
