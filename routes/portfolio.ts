@@ -46,11 +46,16 @@ router.delete(
     _next: NextFunction
   ) => {
     const portfolio = await Portfolio.findById(request.params.id);
+    const username = request.user.username;
 
     const foundUser = request.user;
 
     if (portfolio.user.toString() === foundUser._id.toString()) {
-      await Portfolio.findByIdAndRemove(request.params.id);
+      await Portfolio.findByIdAndDelete(request.params.id);
+      await User.find({ username }).updateOne(
+        {},
+        { $pull: { portfolio: request.params.id } }
+      );
       response.status(204).end();
     } else {
       return response.status(401).json({ error: "incorrect user" });
