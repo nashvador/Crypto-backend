@@ -11,5 +11,6 @@ test("server can be pinged from Backend", async () => {
 });
 
 afterAll(() => {
+  server.close();
   mongoose.connection.close();
 });

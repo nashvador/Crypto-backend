@@ -10,10 +10,14 @@ router.post("/", async (request: Request, response: Response) => {
     name,
     password,
   }: { username: string; name: string; password: string } = request.body;
-  if (password === undefined) {
+  if (password.length === 0) {
     return response.status(400).json({ error: "You must return a password" });
   } else if (password.length < 3) {
     return response.status(400).json({ error: "Password is too short" });
+  } else if (username.length === 0) {
+    return response.status(400).json({ error: "You must return a username" });
+  } else if (name.length === 0) {
+    return response.status(400).json({ error: "You must return a name" });
   }
 
   const existingUser: boolean = await User.findOne({ username });
