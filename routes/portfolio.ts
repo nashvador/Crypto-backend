@@ -59,7 +59,7 @@ router.delete(
       );
       response.status(204).end();
     } else {
-      return response.status(401).json({ error: "incorrect user" });
+      return response.status(401).json({ error: "Incorrect User" });
     }
   }
 );

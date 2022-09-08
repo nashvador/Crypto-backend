@@ -79,6 +79,57 @@ describe("Ability to get and add a new portfolio", () => {
   });
 });
 
+describe("Ability to delete a portfolio", () => {
+  let headers: object;
+
+  beforeEach(async () => {
+    await User.deleteMany({});
+    await Portfolio.deleteMany({});
+
+    const newUser = {
+      username: "nashv",
+      name: "nash vador",
+      password: "password",
+    };
+
+    await api.post("/api/users").send(newUser);
+
+    const result = await api.post("/api/login").send(newUser);
+
+    headers = {
+      Authorization: `bearer ${result.body.token}`,
+    };
+  });
+
+  test("Appropriate user can delete portfolio", async () => {
+    const newPortfolio = {
+      coin: "bitcoin",
+      date: new Date(2022, 9, 5),
+      amount: 0.4,
+    };
+    await api.post("/api/portfolio").set(headers).send(newPortfolio);
+
+    const portfolioAfterAdd = await helper.PortfoliosInDb();
+
+    const portfolioToDelete = portfolioAfterAdd.find(
+      (coin: any) => coin.coinId === newPortfolio.coin
+    );
+
+    await api
+      .delete(`/api/portfolio/${portfolioToDelete.id}`)
+      .set(headers)
+      .expect(204);
+
+    const PortfoliosAtEnd = await helper.PortfoliosInDb();
+
+    expect(PortfoliosAtEnd).toHaveLength(0);
+
+    const contents = PortfoliosAtEnd.map((coin: any) => coin.coinId);
+
+    expect(contents).not.toContain(portfolioToDelete.title);
+  });
+});
+
 afterAll(() => {
   server.close();
   mongoose.connection.close();
