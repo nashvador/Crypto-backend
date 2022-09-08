@@ -6,7 +6,7 @@ const api = supertest(server);
 const User = require("../models/userModel");
 const Portfolio = require("../models/portfolioModel");
 
-describe("Ability to get a new portfolio", () => {
+describe("Ability to get and add a new portfolio", () => {
   let headers: object;
 
   beforeEach(async () => {
@@ -46,6 +46,36 @@ describe("Ability to get a new portfolio", () => {
 
     const contents = portfolioAfterAdd.map((n: any) => n.coinId);
     expect(contents).toContain("bitcoin");
+  });
+
+  test("Add portfolio fails if a coin is missing", async () => {
+    const invalidPortfolio = {
+      coin: "",
+      date: new Date(2022, 9, 5),
+      amount: 0.4,
+    };
+    const newPortfolio = new Portfolio(invalidPortfolio);
+    await expect(newPortfolio.validate()).rejects.toThrow();
+  });
+
+  test("Add portfolio fails if a date is missing or undefined", async () => {
+    const invalidPortfolio = {
+      coin: "bitcoin",
+      date: undefined,
+      amount: 0.4,
+    };
+    const newPortfolio = new Portfolio(invalidPortfolio);
+    await expect(newPortfolio.validate()).rejects.toThrow();
+  });
+
+  test("Add portfolio fails if a amount is missing or undefined", async () => {
+    const invalidPortfolio = {
+      coin: "bitcoin",
+      date: new Date(2022, 9, 5),
+      amount: "",
+    };
+    const newPortfolio = new Portfolio(invalidPortfolio);
+    await expect(newPortfolio.validate()).rejects.toThrow();
   });
 });
 

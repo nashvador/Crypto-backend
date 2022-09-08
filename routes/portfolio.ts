@@ -22,6 +22,7 @@ router.post(
   async (request: GetUserAuthInfoRequest, response: Response) => {
     const body = request.body;
     const user = request.user;
+
     const coin = new Portfolio({
       coinId: body.coin,
       date: body.date,
