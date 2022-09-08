@@ -1,24 +1,22 @@
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 import server from "../index";
+import * as helper from "./test_helper";
 const api = supertest(server);
 const User = require("../models/userModel");
+const Portfolio = require("../models/portfolioModel");
 
-describe("Addition of a new portfolio", () => {
+describe("Ability to get a new portfolio", () => {
   let headers: object;
 
   beforeEach(async () => {
     await User.deleteMany({});
+    await Portfolio.deleteMany({});
 
     const newUser = {
       username: "nashv",
       name: "nash vador",
       password: "password",
-    };
-    const newPortfolio = {
-      coin: "bitcoin",
-      date: new Date(2022, 9, 5),
-      amount: 0.4,
     };
 
     await api.post("/api/users").send(newUser);
@@ -28,45 +26,27 @@ describe("Addition of a new portfolio", () => {
     headers = {
       Authorization: `bearer ${result.body.token}`,
     };
-
-    await api.post("/api/portfolio").set(headers).send(newPortfolio);
   });
 
   test("can get portfolio information", async () => {
-    const newPortfolio = {
-      coin: "bitcoins",
-      date: new Date(2022, 9, 5),
-      amount: 0.4,
-    };
-
-    const response = await api
-      .post("/api/portfolio")
-      .send(newPortfolio)
-      .set(headers);
-    console.log(response.body);
+    const response = await api.get("/api/portfolio").set(headers);
     expect(response.type).toEqual("application/json");
   });
 
-  //   test("A valid portfolio can be added ", async () => {
-  //     const newPortfolio = {
-  //       coinId: "bitcoin",
-  //       date: new Date(2022, 9, 5),
-  //       amountPurchased: 0.4,
-  //     };
+  test("A valid portfolio can be added", async () => {
+    const newPortfolio = {
+      coin: "bitcoin",
+      date: new Date(2022, 9, 5),
+      amount: 0.4,
+    };
+    await api.post("/api/portfolio").set(headers).send(newPortfolio);
 
-  //     await api
-  //       .post("/api/portfolio")
-  //       .send(newPortfolio)
-  //       .set(headers)
+    const portfolioAfterAdd = await helper.PortfoliosInDb();
+    expect(portfolioAfterAdd).toHaveLength(1);
 
-  //       .expect(201)
-  //       .expect("Content-Type", /application\/json/);
-
-  //     const portfolioItems = await helper.PortfoliosInDb();
-  //     expect(portfolioItems).toHaveLength(1);
-
-  //     const contents = portfolioItems.map((coin: any) => coin.coinId);
-  //     expect(contents).toContain("bitcoin");
+    const contents = portfolioAfterAdd.map((n: any) => n.coinId);
+    expect(contents).toContain("bitcoin");
+  });
 });
 
 afterAll(() => {
