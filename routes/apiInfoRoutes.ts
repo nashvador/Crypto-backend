@@ -9,8 +9,12 @@ interface apiInterface extends Object {
 
 router.post("/", async (request: Request, response: Response) => {
   const body: apiInterface = request.body;
-  const responseAPI = await axios.get(body.url);
-  response.json(responseAPI.data);
+  try {
+    const responseAPI = await axios.get(body.url);
+    response.json(responseAPI.data);
+  } catch (err) {
+    return err;
+  }
 });
 
 export default router;
