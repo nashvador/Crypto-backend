@@ -19,6 +19,8 @@ jobs:
         run: npm run lint
       - name: test
         run: npm test
+        env:
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
