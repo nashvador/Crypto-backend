@@ -21,6 +21,7 @@ jobs:
         run: npm test
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          SECRET: ${{ secrets.SECRET }}
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
