@@ -9,5 +9,6 @@
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
-  }
+  },
+  "include": ["./**/*.ts"]
 }
