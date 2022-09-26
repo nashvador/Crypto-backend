@@ -9,4 +9,4 @@ server.listen(config.PORT, () => {
   logger.info(`Server running on port ${config.PORT}`);
 });
 
-export default server;
+module.exports = { server };

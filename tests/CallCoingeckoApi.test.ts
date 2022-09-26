@@ -1,6 +1,7 @@
+export {};
 const mongoose = require("mongoose");
 const supertest = require("supertest");
-import server from "../index";
+const { server } = require("../index");
 const api = supertest(server);
 
 test("server can be pinged from Backend", async () => {
