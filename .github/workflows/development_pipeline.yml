@@ -32,7 +32,7 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "backend-coinnow"
           heroku_email: "nashvador@gmail.com"
-          healthcheck: "https://backend-coinnow.herokuapp.com/ok"
+          healthcheck: "https://backend-coinnow.herokuapp.com/api/healthCheck"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
       - name: Notify discord of success
