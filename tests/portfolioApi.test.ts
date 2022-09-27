@@ -1,7 +1,6 @@
-export {};
 const mongoose = require("mongoose");
 const supertest = require("supertest");
-const { server } = require("../index");
+import server from "../index";
 import * as helper from "./test_helper";
 const api = supertest(server);
 const User = require("../models/userModel");
