@@ -3,6 +3,7 @@ import portfolioRouter from "./routes/portfolio";
 import userRouter from "./routes/userRoutes";
 import loginRouter from "./routes/login";
 import apiRouter from "./routes/apiInfoRoutes";
+import healthCheckRouter from "./routes/healthCheckRoutes";
 import { MONGODB_URI } from "./utils/config";
 const middleware = require("./utils/middleware");
 const cors = require("cors");
@@ -29,6 +30,7 @@ app.use("/api/coininfo", apiRouter);
 app.use("/api/portfolio", portfolioRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
+app.use("/api/healthCheck", healthCheckRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
