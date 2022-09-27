@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
   simple_deployment_pipeline:
@@ -29,6 +32,22 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "backend-coinnow"
           heroku_email: "nashvador@gmail.com"
+      - name: Notify discord of success
+        uses: rjstone/discord-webhook-notify@v1
+        if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
+        with:
+          severity: info
+          username: GitHub_NashVador
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          description: Backend App Deployed to https://backend-coinnow.herokuapp.com/.
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Notify discord of FAILED build
+        uses: rjstone/discord-webhook-notify@v1
+        if: ${{ failure() }}
+        with:
+          severity: error
+          details: Build failed ${{ github.sha }}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
