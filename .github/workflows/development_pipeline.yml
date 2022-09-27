@@ -40,14 +40,14 @@ jobs:
           username: GitHub_NashVador
           avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
           description: Backend App Deployed to https://backend-coinnow.herokuapp.com/.
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_BACKEND }}
       - name: Notify discord of FAILED build
         uses: rjstone/discord-webhook-notify@v1
         if: ${{ failure() }}
         with:
           severity: error
           details: Build failed ${{ github.sha }}
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_BACKEND }}
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
