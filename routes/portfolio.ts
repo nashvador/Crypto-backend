@@ -64,6 +64,8 @@ router.delete(
   }
 );
 
+// patch request
+
 router.put(
   "/:id",
   async (request: Request, response: Response, _next: NextFunction) => {
