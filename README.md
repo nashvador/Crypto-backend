@@ -19,3 +19,5 @@ Here is the [link](https://backend-coinnow.herokuapp.com/).
 # My struggles and What I learned
 
 - Deployment - Deployment to Heroku was an absolute terror! As I dove deeper into the steps of deployment, I kept on getting a `Module not found: Error: Can't resolve 'fs' in` error. That error sent me down a huge rabbit hole which forced me to add scripts to the package.json file and to remove some scripts. Finally, I discovered that Heroku does not support native TypeScript and I had to create a build step in between for deployment.
+
+- Typescript - Since I had no experience with Object Oriented languages, coming from JavaScript to TypeScript was a huge struggle.
