@@ -8,7 +8,7 @@ I completed this app from June 9, 2022 - October 15, 2022 and I developed this p
 
 # Live Link
 
-Here is the [link](https://backend-coinnow.herokuapp.com/).
+Here is the live [link](https://backend-coinnow.herokuapp.com/) to the backend API. Note that most of the endpoints are from post requests, and as such theres not that much json that you can see.
 
 # Why I chose these technologies
 
