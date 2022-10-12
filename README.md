@@ -2,21 +2,25 @@
 
 Welcome to the backend of CoinNow, a crypto app that allows users to view CryptoCurrencies and potentially buy them.
 
-The development was solely done by me - Nash Vador. And the project's purpose was meant to showcase my knowledge with backend applications.
+The development was solely done by me - Nash Vador. And the project's purpose was meant to showcase my knowledge with full stack applications.
 
 I completed this app from June 9, 2022 - October 15, 2022 and I developed this project after work while I was employed as a tester.
 
-# Live link
+# Live link to frontend
+
+Here is the [link](https://coinnow-frontend.netlify.app/) to the frontend of the application. It is automatically connected with the backend so you can play around with the app.
+
+# Live link to backend
 
 Here is the live [link](https://backend-coinnow.herokuapp.com/) to the backend API. Note that most of the endpoints are set up to respond to post requests instead of get requests.
 
-# Link to the frontend repo
+# Link to the frontend repository
 
 Here is the [link](https://github.com/nashvador/Crypto-frontend) to the frontend repo. It is built in React, TypeScript and Material-UI.
 
 # How everything works
 
-- CI/CD Pipeline - For the pipeline, I had to learn YML so that I can incorporate everything. I ran everything on the latest ubuntu environment and on node version 16. I made sure to run linting, testing and installing steps prior to deploying the server. In the deployment steps I included an if statement: `if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}` in order to protect the main branch or even skip deployment if the github commit message states that it is required. I also created a custom endpoint for a healthcheck in my application at /api/healthCheck, and a rollback so that if the request does not return anything it rollsback to the previous deployment. I also included discord ![notifications](./img/discordCICDnotification.png) so that people (mainly I) can be alerted after the build fails or passes. Finally, I added release tagging with `needs: [simple_deployment_pipeline]` to ensure that only deployments are tagged.
+- CI/CD Pipeline - For the pipeline, I had to learn YML and Github Actions so that I can incorporate everything. I ran everything on the latest ubuntu environment and on node version 16. I made sure to run linting, testing and installing steps prior to deploying the server. In the deployment steps I included an if statement: `if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}` in order to protect the main branch or even skip deployment if the github commit message states that it is required. I also created a custom endpoint for a healthcheck in my application at /api/healthCheck, and a rollback so that if the request does not return anything it rollsback to the previous deployment. I also included discord ![notifications](./img/discordCICDnotification.png) so that people (mainly I) can be alerted after the build fails or passes. Finally, I added release tagging with `needs: [simple_deployment_pipeline]` to ensure that only deployments are tagged.
 
 - Schemas - I've used mongoose to create two schemas - a user schema and a portfolio schema (or a coin schema). The user Schema references the portfolio schema and vice versa. On return, I make sure that the password hash is not shown and, as such, deleted it from the schema itself.
 
